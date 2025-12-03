@@ -10,16 +10,25 @@ public class DestroyableBox : MonoBehaviour
     [SerializeField] private Rigidbody _capRb;
     [SerializeField] private Rigidbody _boxRb;
 
-   private void OnCollisionEnter(Collision other)
-    {
-        if(other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("Tank"))
-        {
-            Debug.Log("Box touched !");
-            _capRb.AddForce(Vector3.up * _capForce);
-            _boxRb.AddForce((other.transform.position - transform.position) * _boxForce);
+    public Action<DestroyableBox> OnBoxDestroy;
 
-            Collider myCollider = GetComponent<Collider>();
-            Destroy(myCollider);
-        }
+    private Vector3 _projectilePosition;
+
+    public void SetProjectilePosition(Vector3 projectilePosition)
+    {
+        _projectilePosition = projectilePosition;
     }
+    
+    public void Explode()
+    {
+        Debug.Log("Pan t'es mort !");
+        _capRb.AddForce(Vector3.up * _capForce);
+        _boxRb.AddForce((_projectilePosition - transform.position) * _boxForce);
+
+        Collider myCollider = GetComponent<Collider>();
+        Destroy(myCollider);
+            
+        OnBoxDestroy.Invoke(this);
+    }
+    
 }

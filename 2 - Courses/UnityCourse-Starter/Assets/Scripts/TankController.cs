@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,8 +14,7 @@ public class TankController : MonoBehaviour
     private float _rotateInput = 0;
     
     private Rigidbody _rb;
-
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,8 +45,15 @@ public class TankController : MonoBehaviour
         _rotateInput = ctx.ReadValue<float>();
     }
 
-    public void DoShooting()
+    public void DoShooting(InputAction.CallbackContext ctx)
     {
-        Instantiate(_bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
+        Debug.Log("Do shooting");
+        if(ctx.performed)
+        {
+            Instantiate(_bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
+        }
+        
+        
+        
     }
 }

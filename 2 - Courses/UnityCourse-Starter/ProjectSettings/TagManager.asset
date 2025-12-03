@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Tank
   - Bullet
-  - Projectile
   layers:
   - Default
   - TransparentFX
