@@ -10,6 +10,9 @@ public class DamageTaker : MonoBehaviour
     
     public float _hp;
     
+    public float Hp => _hp;
+    public float HpMax => _hpMax;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,16 +22,25 @@ public class DamageTaker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_hp <= 0)
-        {
-            _onDeath.Invoke();
-            if(_destroyable) Destroy(gameObject);
-        }
+        
     }
 
     public void TakeDamages(float damages)
     {
+        
         _hp -= damages;
+        if (_hp <= 0)
+        {
+            _onDeath.Invoke();
+            if (_destroyable)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                enabled = false;
+            }
+        }
     }
     
 }

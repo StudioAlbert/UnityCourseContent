@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision other)
+    public void IsDown()
     {
-
-        if (other.gameObject.TryGetComponent(out Bullet bullet))
+        if (TryGetComponent(out Rigidbody rb))
         {
-            Destroy(gameObject);
+            rb.isKinematic = false;
+            rb.AddForce(new Vector3(Random.value, 0, Random.value), ForceMode.Impulse);
         }
-        
     }
 }

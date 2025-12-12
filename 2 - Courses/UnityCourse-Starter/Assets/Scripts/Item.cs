@@ -8,7 +8,10 @@ public class Item : MonoBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        Destroy(gameObject);
+        if(other.collider.CompareTag("Tank"))
+        {
+            Destroy(gameObject);
+        }
     }
 
 

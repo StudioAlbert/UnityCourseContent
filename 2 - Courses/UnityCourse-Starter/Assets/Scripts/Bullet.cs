@@ -5,6 +5,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _forceIntensity = 50f;
     [SerializeField] private float _damage = 50;
 
+    [SerializeField] private GameObject _impact;
+
     private Rigidbody _rb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -46,6 +48,8 @@ public class Bullet : MonoBehaviour
         {
             damageTaker.TakeDamages(_damage);
         }
+
+        Instantiate(_impact, transform.position, Quaternion.identity);
         
         Destroy(gameObject);
         
