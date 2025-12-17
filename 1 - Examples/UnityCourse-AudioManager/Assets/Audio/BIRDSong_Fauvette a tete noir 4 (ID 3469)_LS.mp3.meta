@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: 1b46c101cacd70a4fa09545bf0d68820
-AssetOrigin:
-  serializedVersion: 1
-  productId: 155776
-  packageName: Free Sound Effects Pack
-  packageVersion: 1.0
-  assetPath: Assets/Free Pack/Carriage on Stone Road - Loop.wav
-  uploadId: 333958
+guid: 4f4759c267a069645845d48af24b86d0
 AudioImporter:
   externalObjects: {}
   serializedVersion: 8
@@ -18,9 +11,9 @@ AudioImporter:
     compressionFormat: 1
     quality: 1
     conversionMode: 0
-    preloadAudioData: 1
+    preloadAudioData: 0
   platformSettingOverrides: {}
-  forceToMono: 1
+  forceToMono: 0
   normalize: 1
   loadInBackground: 0
   ambisonic: 0

@@ -11,6 +11,7 @@ public class AudioShot : MonoBehaviour
     void Start()
     {
         _source = GetComponent<AudioSource>();
+        Time.timeScale = 0f;
     }
 
     // Update is called once per frame
@@ -22,9 +23,13 @@ public class AudioShot : MonoBehaviour
     {
         if(ctx.performed)
         {
-            _source.clip = _clip;
             _source.pitch = Random.Range(0.8f, 1.2f);
-            _source.Play();
+            
+            // _source.clip = _clip;
+            // _source.Play();
+
+            _source.PlayOneShot(_clip);
+            
         }
     }
 }

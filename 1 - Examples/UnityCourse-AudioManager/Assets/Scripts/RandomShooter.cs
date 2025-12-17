@@ -8,13 +8,16 @@ public class RandomShooter : MonoBehaviour
     [SerializeField] private float _stepRateMin = 0.25f;
     [SerializeField] private float _stepRateMax = 0.75f;
 
-    private AudioSource _source;
+    // private AudioSource _source;
+    private SoundShooterManager _soundShooterManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        _source = GetComponent<AudioSource>();
+        // _source = GetComponent<AudioSource>();
+        _soundShooterManager = GetComponentInParent<SoundShooterManager>();
     }
+    
     private void OnEnable() => StartCoroutine(RandomShoot_co());
     private void OnDisable() => StopCoroutine(RandomShoot_co());
 
@@ -35,6 +38,7 @@ public class RandomShooter : MonoBehaviour
     
     private void PlayOneShoot()
     {
-        _source.PlayOneShot(_clip);
+        // _source.PlayOneShot(_clip);
+        _soundShooterManager?.PlayShootSound(_clip);
     }
 }
