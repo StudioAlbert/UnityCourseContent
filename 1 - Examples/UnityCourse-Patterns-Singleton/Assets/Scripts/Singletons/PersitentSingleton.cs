@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Singletons
 {
-    public class GenericSingleton<T> : MonoBehaviour where T : Component
+    public class PersistentSingleton<T> : MonoBehaviour where T : Component
     {
         protected static T instance;
 
@@ -34,11 +34,23 @@ namespace Singletons
             Initialize();
         }
 
+        
         private void Initialize()
         {
             if(!Application.isPlaying) return;
-
-            instance = this as T;
+            
+            if(instance == null)
+            {
+                instance = this as T;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                if (instance != this)
+                {
+                    Destroy(gameObject);
+                }
+            }
         } 
 
     }

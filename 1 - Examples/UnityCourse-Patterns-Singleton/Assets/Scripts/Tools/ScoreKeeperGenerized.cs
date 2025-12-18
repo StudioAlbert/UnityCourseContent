@@ -2,7 +2,7 @@
 
 namespace Singletons
 {
-    public class ScoreKeeperGenerized : GenericSingleton<ScoreKeeperGenerized>
+    public class ScoreKeeperGenerized : PersistentSingleton<ScoreKeeperGenerized>
     {
         public int Score { get; private set; }
         
