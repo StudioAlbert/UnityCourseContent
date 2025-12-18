@@ -4,7 +4,7 @@ namespace Singletons
 {
     public class ScoreKeeperGenerized : PersistentSingleton<ScoreKeeperGenerized>
     {
-        public int Score { get; private set; }
+        public int Score;
         
         public void AddScore(int score)
         {

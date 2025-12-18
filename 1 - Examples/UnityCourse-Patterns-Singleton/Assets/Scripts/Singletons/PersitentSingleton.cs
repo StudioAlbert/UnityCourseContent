@@ -7,9 +7,6 @@ namespace Singletons
     {
         protected static T instance;
 
-        public static bool HasInstance => instance != null;
-        public static T TryGetInstance => HasInstance ? instance : null;
-
         public static T Instance
         {
             get

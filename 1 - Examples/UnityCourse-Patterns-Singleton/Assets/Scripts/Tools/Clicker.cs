@@ -12,6 +12,7 @@ public class Clicker : MonoBehaviour
     {
         _mouse = Mouse.current;
         _main = Camera.main;
+
     }
 
     // Update is called once per frame

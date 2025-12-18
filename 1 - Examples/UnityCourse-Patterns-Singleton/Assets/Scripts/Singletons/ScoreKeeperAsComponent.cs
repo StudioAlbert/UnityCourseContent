@@ -5,10 +5,10 @@ namespace Singletons
 {
     public class ScoreKeeperAsComponent : MonoBehaviour
     {
-        public static ScoreKeeperAsComponent Instance { get; private set; }
-        
-        public int Score { get; private set; }
 
+        #region Singleton
+
+        public static ScoreKeeperAsComponent Instance { get; private set; }
         private void Awake()
         {
             if (Instance == null)
@@ -21,11 +21,17 @@ namespace Singletons
             }
         }
 
+        #endregion
+
+        #region ClassicComponent
+
+        public int Score { get; private set; }
         public void AddScore(int score)
         {
             Score += score;
         }
 
+        #endregion
 
     }
 }

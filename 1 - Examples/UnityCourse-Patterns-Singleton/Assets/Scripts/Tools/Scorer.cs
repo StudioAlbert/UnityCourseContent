@@ -9,8 +9,9 @@ public class Scorer : MonoBehaviour
     public void AddScore()
     {
         Debug.Log($"Score added {@ScoreIfClicked}");
+        //ScoreKeeper.Instance().Score += ScoreIfClicked;
+        //ScoreKeeperAsComponent.Instance.AddScore(ScoreIfClicked);
         ScoreKeeperGenerized.Instance.AddScore(ScoreIfClicked);
-        // ScoreKeeperAsComponent.Instance.AddScore(ScoreIfClicked);
-    }
+        }
     
 }
