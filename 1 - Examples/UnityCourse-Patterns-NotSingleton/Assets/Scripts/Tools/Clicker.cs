@@ -18,10 +18,15 @@ public class Clicker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        _main = Camera.main;
+        
         if (_mouse.leftButton.isPressed)
         {
             // Exemple d'utilisation : obtenir la position de la souris
             Vector2 mousePosition = _mouse.position.ReadValue();
+            
+            if(!_main) return;
             
             Ray mouseRay = _main.ScreenPointToRay(mousePosition);
             if (Physics.Raycast(mouseRay, out RaycastHit hit))
@@ -35,9 +40,4 @@ public class Clicker : MonoBehaviour
         }
     }
     
-    public void OnClick(InputAction.CallbackContext ctx)
-    {
-
-
-    }
 }
