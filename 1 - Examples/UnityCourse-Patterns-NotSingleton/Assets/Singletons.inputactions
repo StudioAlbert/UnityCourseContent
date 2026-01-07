@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "Singletons",
+    "maps": [
+        {
+            "name": "Sample",
+            "id": "d48bcf55-ee66-4717-85a7-a01ac48c8647",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "bfd57909-7681-46fe-acb7-8ab134ab99e4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d3df5123-478a-41bc-9154-51793a5a9d63",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
