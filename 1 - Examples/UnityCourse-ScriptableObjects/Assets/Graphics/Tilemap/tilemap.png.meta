@@ -2138,7 +2138,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tilemap_91
+      name: OpenChest
       rect:
         serializedVersion: 2
         x: 119
@@ -2886,7 +2886,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BigPotion
+      name: SmallPotionGrey
       rect:
         serializedVersion: 2
         x: 85
@@ -3054,7 +3054,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Axe: -1911479722
-      BigPotion: -1378507554
       BigPotionBlue: 1670251829
       BigPotionGreen: 661381311
       BigPotionGrey: 1366992990
@@ -3064,8 +3063,10 @@ TextureImporter:
       Knight1: 1376807208
       LongSword: -238906174
       MagicGoule: -754369827
+      OpenChest: -802379369
       SmallPotionBlue: -912709191
       SmallPotionGreen: 404946679
+      SmallPotionGrey: -1378507554
       SmallPotionRed: -948322212
       Sword: -577651073
       Warrior: -888432984
@@ -3178,7 +3179,6 @@ TextureImporter:
       tilemap_88: -408414032
       tilemap_9: -1239646815
       tilemap_90: 475437686
-      tilemap_91: -802379369
       tilemap_92: 856373817
       tilemap_93: -2093025046
       tilemap_94: -892629397

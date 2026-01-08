@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87cc36c3139461ab6d84dd7af6f37e7, type: 3}
+  m_Name: Axe
+  m_EditorClassIdentifier: 
+  _name: Big Axe
+  _atkStats: 6
+  _weightKg: 15
+  _icon: {fileID: -1911479722, guid: 4515fc4729fbe4d419fb6e276f4cb163, type: 3}
