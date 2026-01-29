@@ -84,15 +84,13 @@ public class PlayerController : MonoBehaviour
                 _verticalVelocity += Physics.gravity * Time.deltaTime;
             else
                 _verticalVelocity += Physics.gravity * (_fallFactor * Time.deltaTime);
-        }
-
+        } 
+        _controller.Move(horizontalVelocity * Time.deltaTime + _verticalVelocity * Time.deltaTime);
 
         Quaternion inputRotation = Quaternion.LookRotation(new Vector3(_inputs.Move.x, 0, _inputs.Move.y), Vector3.up);
         Quaternion cameraRotation = _mainCamera.transform.rotation;
         Quaternion rotation = Quaternion.Euler(0, cameraRotation.eulerAngles.y, 0) * inputRotation;
-
-        _controller.Move(horizontalVelocity * Time.deltaTime + _verticalVelocity * Time.deltaTime);
-
+        
         if (horizontalVelocity.sqrMagnitude > 0.001f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, _rotationDelay);
