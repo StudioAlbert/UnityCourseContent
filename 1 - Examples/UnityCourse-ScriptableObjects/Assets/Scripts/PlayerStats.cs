@@ -10,5 +10,6 @@ public class PlayerStats : MonoBehaviour
     public void Heal(int value) => _health.Value += value;
     public void MakeMoney(int value) => _gold += value;
     public void GainMana(int value) => _mana += value;
+
     
 }
