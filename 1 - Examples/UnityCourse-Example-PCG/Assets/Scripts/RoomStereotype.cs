@@ -19,7 +19,7 @@ public struct Link
     public RoomStereotype Room;
 }
 
-[CreateAssetMenu(fileName = "RoomStereotype", menuName = "Scriptable Objects/RoomStereotype")]
+[CreateAssetMenu(fileName = "RoomStereotype", menuName = "Dungeon Crawler/RoomStereotype")]
 public class RoomStereotype : ScriptableObject
 {
     public Vector2 Size;
