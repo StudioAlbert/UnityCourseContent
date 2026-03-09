@@ -1,0 +1,20 @@
+:root {
+}
+
+.my-button {
+    border-color: rgb(255, 255, 255);
+    border-width: 2px;
+    border-radius: 5px;
+    -unity-font-definition: url("project://database/Assets/00%20-%20Imports_Packs/kenney_ui-pack/Font/Kenney%20Future%20Narrow.ttf?fileID=12800000&guid=820031246a2338e47a266d2bc3b16e29&type=3#Kenney Future Narrow");
+    color: rgb(255, 255, 255);
+    background-color: rgba(99, 133, 191, 0.75);
+    margin: 5px;
+    transition-duration: 0.1s;
+    flex-grow: 0;
+    height: auto;
+    min-height: 61px;
+}
+
+.my-button:hover {
+    scale: 1.1 1.1 1.1;
+}

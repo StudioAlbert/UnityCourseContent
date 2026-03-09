@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/09%20-%20UI/BeautifulMmoRpg.uss?fileID=7433441132597879392&amp;guid=6c30aceeb5ba6ff4d92cfc03b3f1701a&amp;type=3#BeautifulMmoRpg"/>
+    <ui:VisualElement name="root" style="flex-grow: 0; background-color: rgba(195, 17, 17, 0); width: 85%; height: 85%; flex-shrink: 0; align-self: auto; align-content: auto; justify-content: flex-start; translate: 0 0; top: auto; bottom: auto; flex-direction: column; flex-wrap: nowrap; position: relative; left: auto; right: auto; margin-top: auto; margin-right: auto; margin-bottom: auto; margin-left: auto;">
+        <ui:VisualElement name="main-panel" style="flex-grow: 1; background-color: rgba(191, 153, 50, 0); margin-top: 4%; margin-left: auto; margin-bottom: 7%; margin-right: auto; width: 50%; -unity-text-align: middle-center; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%; flex-direction: column;">
+            <ui:Label text="Beautiful Mmo Rpg" selectable="true" focusable="true" style="-unity-font-definition: url(&quot;project://database/Assets/00%20-%20Imports_Packs/kenney_ui-pack/Font/Kenney%20Future.ttf?fileID=12800000&amp;guid=138e4b589a8dc7d4a938cfebab49fc71&amp;type=3#Kenney Future&quot;); font-size: 81px; color: rgb(255, 255, 255); -unity-text-align: middle-center; white-space: normal; margin-bottom: 79px;"/>
+            <ui:VisualElement style="flex-grow: 1; flex-direction: column;">
+                <ui:Button text="Start" name="btn-start" class="my-button"/>
+                <ui:Button text="Settings" name="btn-settings" class="my-button"/>
+                <ui:Button text="Credits" name="btn-credits" class="my-button"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

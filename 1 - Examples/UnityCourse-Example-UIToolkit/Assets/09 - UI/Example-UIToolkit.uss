@@ -1,0 +1,84 @@
+:root {
+}
+
+Button {
+    border-radius: 15px;
+    -unity-text-auto-size: none;
+    -unity-text-generator: standard;
+    padding: 9px;
+    background-color: rgba(103, 102, 124, 0.51);
+    border-width: 2px;
+    border-color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/00%20-%20Imports_Packs/kenney_ui-pack/Font/Kenney%20Future%20Narrow.ttf?fileID=12800000&guid=820031246a2338e47a266d2bc3b16e29&type=3#Kenney Future Narrow");
+    word-spacing: 20px;
+    -unity-text-align: middle-center;
+    flex-shrink: 1;
+    width: 85%;
+    color: rgb(255, 255, 255);
+    margin: 20px;
+    transition-duration: 0s;
+    font-size: 14px;
+}
+
+Button:hover {
+    background-color: rgba(87, 82, 173, 0.83);
+    scale: 1.025 1.025 1.025;
+}
+
+Button:focus {
+    background-color: rgba(88, 83, 173, 0.84);
+    scale: 1.025 1.025 1.025;
+}
+
+Button:active {
+    background-color: rgba(255, 255, 255, 0.82);
+    scale: 1.025 1.025 1.025;
+    border-color: rgba(40, 28, 200, 0.92);
+    color: rgb(40, 28, 200);
+}
+
+.panel {
+    flex-grow: 0;
+    width: 53%;
+    height: 83%;
+    background-color: rgba(155, 42, 42, 0);
+    flex-shrink: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    align-self: auto;
+    justify-content: flex-start;
+    align-items: auto;
+    flex-wrap: wrap-reverse;
+    flex-direction: column;
+    align-content: auto;
+    display: flex;
+    position: absolute;
+}
+
+.root {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    width: 95%;
+    height: 95%;
+    align-self: center;
+    padding-top: 3%;
+    padding-right: 3%;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+}
