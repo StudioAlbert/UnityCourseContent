@@ -69,7 +69,7 @@ public class DungeonGenerator : MonoBehaviour
 
 	    foreach (Corridor corridor in _corridors)
 	    {
-		    Gizmos.color = Color.darkOrange;
+		    Gizmos.color = Color.blue;
 		    Gizmos.DrawLine(corridor.A.Bounds.center, corridor.B.Bounds.center);
 	    }
 	    

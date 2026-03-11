@@ -15,6 +15,7 @@ namespace PCG
     {
         public BoundsInt Bounds;
         public CutType CutType;
+        
         public List<BspNode> Children;
         public BspNode Parent = null;
 
@@ -25,8 +26,8 @@ namespace PCG
             Center = center;
             Bounds = bounds;
             CutType = cutType;
+            
             Parent = parent;
-
             Children = new List<BspNode>();
 
         }
@@ -127,14 +128,14 @@ namespace PCG
         public static List<BoundsInt> MakeRooms(BspNode root, float shrinkFactor)
         {
             List<BoundsInt> rooms = new List<BoundsInt>();
-            Stack<BspNode> pathQueue = new Stack<BspNode>();
+            Stack<BspNode> roomStack = new Stack<BspNode>();
 
-            pathQueue.Push(root);
+            roomStack.Push(root);
 
             do
             {
 
-                BspNode current = pathQueue.Pop();
+                BspNode current = roomStack.Pop();
 
                 if (current.IsLeaf)
                 {
@@ -144,11 +145,11 @@ namespace PCG
                 {
                     foreach (var child in current.Children)
                     {
-                        pathQueue.Push(child);
+                        roomStack.Push(child);
                     }
                 }
 
-            } while (pathQueue.Count > 0);
+            } while (roomStack.Count > 0);
 
             return rooms;
 
@@ -183,6 +184,7 @@ namespace PCG
                 if (!current.IsLeaf)
                 {
                     corridors.Add(new Corridor(current.Children[0], current.Children[1]));
+                    
                     foreach (var child in current.Children.FindAll(c => !c.IsLeaf))
                     {
                         pathQueue.Enqueue(child);
