@@ -1,8 +1,7 @@
-using System;
-using System.CodeDom.Compiler;
+
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
+using PCG;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -22,8 +21,13 @@ public class DungeonGenerator : MonoBehaviour
 	[SerializeField][Range(0.1f, 1f)] private float _maxCutRatio;
 	[SerializeField] private int _maxSurface = 1250;
 	[SerializeField] private float _shrinkFactor = 0.8f;
+	[SerializeField] private float _jitter = 25;
+
+	[Header("Corridors")]
+	[SerializeField] private int _corridorSize = 3;
 	
 	private List<BoundsInt> _rooms = new List<BoundsInt>();
+	private List<Corridor>	_corridors = new List<Corridor>();
 	
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,26 +39,26 @@ public class DungeonGenerator : MonoBehaviour
 	    Vector2Int corner = _startPos - _size / 2;
 	    BoundsInt originalRoom = new BoundsInt(new Vector3Int(corner.x, corner.y, 1), new Vector3Int(_size.x, _size.y, 1));
 
-	    _rooms = PCG.BspTree.Generate(originalRoom, _minCutRatio, _maxCutRatio, _maxSurface);
-	    _rooms = ShrinkRooms(_rooms);
-	    
-	    MakePaths(_rooms);
+	    PCG.BspTree.Generate(out BspNode root, originalRoom, _minCutRatio, _maxCutRatio, _maxSurface, _jitter);
+	    _rooms = PCG.BspTree.MakeRooms(root, _shrinkFactor);
+	    _corridors = PCG.BspTree.MakeCorridors(root);
+
+	    var corridorTiles = new List<Vector2Int>();
+	    foreach (Corridor corridor in _corridors)
+	    {
+		    corridorTiles.AddRange(PCG.Corridor.StraightCorridors(corridor));
+	    }
 
 	    _tilemap.ClearAllTiles();
 	    foreach (BoundsInt room in _rooms)
 	    {
 		    Debug.Log($"Room : {room.min} , {room.size}");
-		    DrawMap(_tilemap, _tile, room);
+		    PCG.Utils.DrawMap(_tilemap, _tile, room);
 	    }
+	    PCG.Utils.DrawMap(_tilemap, _tile, corridorTiles);
 		
     }
     
-    
-    private void MakePaths(List<BoundsInt> rooms)
-    {
-	    BoundsInt firstRoom = _rooms.OrderBy(r => Vector3.Distance(r.center, new Vector3(_startPos.x, _startPos.y, 0))).First();
-    }
-
     private void OnDrawGizmos()
     {
 	    foreach (BoundsInt room in _rooms)
@@ -62,6 +66,13 @@ public class DungeonGenerator : MonoBehaviour
 		    Gizmos.color = Color.red;
 			Gizmos.DrawWireCube(room.center, room.size);
 	    }
+
+	    foreach (Corridor corridor in _corridors)
+	    {
+		    Gizmos.color = Color.darkOrange;
+		    Gizmos.DrawLine(corridor.A.Bounds.center, corridor.B.Bounds.center);
+	    }
+	    
     }
 
     private List<Vector2Int> Generate()
@@ -82,39 +93,7 @@ public class DungeonGenerator : MonoBehaviour
 	    
 	    return positions;
     }
-    
-    private void DrawMap(Tilemap map, TileBase tile, List<Vector2Int> generatedPositions)
-    {
-	    _tilemap.ClearAllTiles();
-	    
-	    foreach (Vector2Int position in generatedPositions)
-	    {
-		    _tilemap.SetTile(new Vector3Int(position.x, position.y, 0), _tile);    
-	    }
-    }
-    private void DrawMap(Tilemap map, TileBase tile, BoundsInt positions)
-    {
-	    foreach (var position in positions.allPositionsWithin)
-	    {
-		    _tilemap.SetTile(position, _tile);    
-	    }
-    }
 
-    private List<BoundsInt> ShrinkRooms(List<BoundsInt> rooms)
-    {
-	    List<BoundsInt> newRooms = new List<BoundsInt>();
-	    
-	    foreach (BoundsInt room in rooms)
-	    {
-		    Vector3Int newSize = Vector3Int.RoundToInt(new Vector3(room.size.x * _shrinkFactor, room.size.y * _shrinkFactor, 1));
-		    Vector3Int newPosition = Vector3Int.RoundToInt(room.center - new Vector3(0.5f * newSize.x, 0.5f * newSize.y, 1));
-		    
-		    newRooms.Add(new BoundsInt(newPosition, newSize));
-		    
-	    }
-
-	    return newRooms;
-    }
     
     // Update is called once per frame
     void Update()
