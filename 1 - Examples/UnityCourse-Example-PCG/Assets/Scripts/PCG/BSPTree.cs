@@ -11,80 +11,54 @@ namespace PCG
         Vertical
     }
 
-    public class BspNode
-    {
-        public BoundsInt Bounds;
-        public CutType CutType;
-        
-        public List<BspNode> Children;
-        public BspNode Parent = null;
-
-        public Vector3 Center;
-
-        public BspNode(Vector3 center, BoundsInt bounds, CutType cutType, BspNode parent)
-        {
-            Center = center;
-            Bounds = bounds;
-            CutType = cutType;
-            
-            Parent = parent;
-            Children = new List<BspNode>();
-
-        }
-
-        public bool IsLeaf => Children.Count == 0;
-    }
-
     public class BspTree
     {
 
-        public static void Generate(out BspNode root, BoundsInt firstRoom, float minCutRatio, float maxCutRatio,
-            float surfaceCriteria, float jitter)
+        public static void Generate(out BspNode root, BoundsInt originBounds, float minCutRatio, float maxCutRatio,
+            float surfaceCriteria, float jitter, float shrinkFactor)
         {
             CutType cutType = Random.value > 0.5f ? CutType.Horizontal : CutType.Vertical;
 
             Queue<BspNode> cutsQueue = new Queue<BspNode>();
-            root = new BspNode(Vector3.zero, firstRoom, cutType, null);
+            root = new BspNode(originBounds, cutType, null);
             cutsQueue.Enqueue(root);
 
             do
             {
-                BspNode roomToCut = cutsQueue.Dequeue();
+                BspNode cutNode = cutsQueue.Dequeue();
 
-                if ((roomToCut.Bounds.size.x * roomToCut.Bounds.size.y) > surfaceCriteria)
+                if ((cutNode.Bounds.size.x * cutNode.Bounds.size.y) > surfaceCriteria)
                 {
 
                     float cutRatio = Random.Range(Mathf.Min(minCutRatio, maxCutRatio), Mathf.Max(minCutRatio, maxCutRatio));
 
                     BoundsInt[] boundsCutResult = new BoundsInt[2];
                     CutType cutTypeResult = CutType.Horizontal;
-                    switch (roomToCut.CutType)
+                    switch (cutNode.CutType)
                     {
                         case CutType.Horizontal:
-                            boundsCutResult = CutVertical(roomToCut.Bounds, cutRatio);
+                            boundsCutResult = CutVertical(cutNode.Bounds, cutRatio);
                             cutTypeResult = CutType.Vertical;
                             break;
                         case CutType.Vertical:
-                            boundsCutResult = CutHorizontal(roomToCut.Bounds, cutRatio);
+                            boundsCutResult = CutHorizontal(cutNode.Bounds, cutRatio);
                             cutTypeResult = CutType.Horizontal;
                             break;
                     }
                     foreach (BoundsInt boundsInt in boundsCutResult)
                     {
                         BspNode newNode = new BspNode(
-                            // boundsInt.center,
-                            boundsInt.center + jitter * Random.insideUnitSphere,
                             boundsInt,
                             cutTypeResult,
-                            roomToCut);
-                        roomToCut.Children.Add(newNode);
+                            cutNode);
+                        cutNode.Children.Add(newNode);
 
                         cutsQueue.Enqueue(newNode);
                     }
                 }
                 else
                 {
-                    // nbRooms++;
+                    cutNode.SetRoom(jitter, shrinkFactor);
                 }
 
             } while (cutsQueue.Count > 0);
@@ -125,48 +99,76 @@ namespace PCG
 
         }
 
-        public static List<BoundsInt> MakeRooms(BspNode root, float shrinkFactor)
+        public static List<BoundsInt> GetRooms(BspNode root, float shrinkFactor)
         {
             List<BoundsInt> rooms = new List<BoundsInt>();
-            Stack<BspNode> roomStack = new Stack<BspNode>();
+            Stack<BspNode> nodeStack = new Stack<BspNode>();
 
-            roomStack.Push(root);
+            nodeStack.Push(root);
 
             do
             {
 
-                BspNode current = roomStack.Pop();
+                BspNode current = nodeStack.Pop();
 
                 if (current.IsLeaf)
                 {
-                    rooms.Add(SampleRoom(current, shrinkFactor));
+                    rooms.Add(current.Room);
                 }
                 else
                 {
                     foreach (var child in current.Children)
                     {
-                        roomStack.Push(child);
+                        nodeStack.Push(child);
                     }
                 }
 
-            } while (roomStack.Count > 0);
+            } while (nodeStack.Count > 0);
 
             return rooms;
 
-        }
-
-        private static BoundsInt SampleRoom(BspNode node, float shrinkFactor)
+        }public static List<BoundsInt> GetBounds(BspNode root)
         {
-            Vector3Int newSize = Vector3Int.RoundToInt(new Vector3(node.Bounds.size.x * shrinkFactor, node.Bounds.size.y * shrinkFactor, 1));
-            Vector3Int newPosition =
-                Vector3Int.RoundToInt(
-                    node.Center -
-                    new Vector3(0.5f * newSize.x, 0.5f * newSize.y, 1)
-                );
+            List<BoundsInt> bounds = new List<BoundsInt>();
+            Stack<BspNode> nodeStack = new Stack<BspNode>();
 
-            return new BoundsInt(newPosition, newSize);
+            nodeStack.Push(root);
+
+            do
+            {
+
+                BspNode current = nodeStack.Pop();
+
+                if (current.IsLeaf)
+                {
+                    bounds.Add(current.Bounds);
+                }
+                else
+                {
+                    foreach (var child in current.Children)
+                    {
+                        nodeStack.Push(child);
+                    }
+                }
+
+            } while (nodeStack.Count > 0);
+
+            return bounds;
 
         }
+
+        // private static BoundsInt SampleRoom(BspNode node, float shrinkFactor)
+        // {
+        //     Vector3Int newSize = Vector3Int.RoundToInt(new Vector3(node.Bounds.size.x * shrinkFactor, node.Bounds.size.y * shrinkFactor, 1));
+        //     Vector3Int newPosition =
+        //         Vector3Int.RoundToInt(
+        //             node.Center -
+        //             new Vector3(0.5f * newSize.x, 0.5f * newSize.y, 1)
+        //         );
+        //
+        //     return new BoundsInt(newPosition, newSize);
+        //
+        // }
 
         public static List<Corridor> MakeCorridors(BspNode root)
         {
@@ -178,12 +180,28 @@ namespace PCG
 
             do
             {
-
                 BspNode current = pathQueue.Dequeue();
 
                 if (!current.IsLeaf)
                 {
-                    corridors.Add(new Corridor(current.Children[0], current.Children[1]));
+                    // Both are Leaves -------------------------------------------------------------------------------
+                    switch(current.Children[0].IsLeaf, current.Children[1].IsLeaf) 
+                    {
+                        case (true, true):
+                            corridors.Add(new Corridor(current.Children[0], current.Children[1]));
+                            break;
+                        case (true, false):
+                            corridors.Add(new Corridor(current.Children[0], current));
+                            break;  
+                        case (false, true):
+                            corridors.Add(new Corridor(current, current.Children[1]));
+                            break;  
+                        case (false, false):
+                            //corridors.Add(new Corridor(GetRandomLeaf(current), GetRandomLeaf(current)));
+                            break;
+                        default:
+                            break;
+                    };
                     
                     foreach (var child in current.Children.FindAll(c => !c.IsLeaf))
                     {
@@ -196,6 +214,29 @@ namespace PCG
             return corridors;
 
 
+        }
+        
+        private static BspNode GetRandomLeaf(BspNode root)
+        {
+            Stack<BspNode> roomStack = new Stack<BspNode>();
+            roomStack.Push(root);
+
+            do
+            {
+
+                BspNode current = roomStack.Pop();
+
+                if (current.IsLeaf)
+                {
+                    return current;
+                }
+                
+                roomStack.Push(current.Children[Random.Range(0, current.Children.Count)]);
+
+            } while (roomStack.Count > 0);
+            
+            return null;
+            
         }
     }
 }

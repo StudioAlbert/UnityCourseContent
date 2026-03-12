@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Game
+    uniqueID: 1128876189
+    locked: 0
+  - name: OverlayTile
+    uniqueID: 465847157
+    locked: 0
+  - name: Arrow
+    uniqueID: 2676554109
+    locked: 0
+  - name: Unit
+    uniqueID: 1332118013
+    locked: 0
+  - name: UI
+    uniqueID: 2826700891
+    locked: 0

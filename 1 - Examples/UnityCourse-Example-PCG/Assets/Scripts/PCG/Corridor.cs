@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PCG
@@ -7,36 +8,175 @@ namespace PCG
     {
         public BspNode A;
         public BspNode B;
+
         public Corridor(BspNode a, BspNode b)
         {
             A = a;
             B = b;
         }
-        
-        public static List<Vector2Int> StraightCorridors(Corridor corridor)
+
+        public enum CorridorIntersectType
         {
-            Vector3Int start = Vector3Int.RoundToInt(corridor.A.Center);
-            Vector3Int end = Vector3Int.RoundToInt(corridor.B.Center);
+            FirstXThenY,
+            FirstYThenX
+        }
+
+        // public static List<Vector2Int> StraightCorridors(Corridor corridor)
+        // {
+        //     Vector3Int start = Vector3Int.RoundToInt(corridor.A.Center);
+        //     Vector3Int end = Vector3Int.RoundToInt(corridor.B.Center);
+        //     List<Vector2Int> tiles = new List<Vector2Int>();
+        //
+        //     var direction = end - start;
+        //     direction.Clamp(new Vector3Int(-1, -1, -1), new Vector3Int(1, 1, 1));
+        //
+        //     Vector3Int current = start;
+        //     do
+        //     {
+        //         current += direction;
+        //         Debug.Log($"Current corridor: {current}");
+        //         tiles.Add(new Vector2Int(current.x, current.y));
+        //
+        //     } while (Vector3.Distance(current, end) >= Mathf.Epsilon);
+        //
+        //     return tiles;
+        //
+        // }
+
+        public static List<Vector2Int> LCorridors(Corridor corridor, CorridorIntersectType type)
+        {
+
+            // Vector3Int start = Vector3Int.RoundToInt(Vector3.Min(corridor.A.Room.center, corridor.B.Room.center));
+            // Vector3Int end = Vector3Int.RoundToInt(Vector3.Max(corridor.A.Room.center, corridor.B.Room.center));
+            // return GenerateCorridorTiles(type, start, end);
+            
+            // Fix ---------------
+            Vector3Int start = Vector3Int.RoundToInt(corridor.A.Room.center);
+            Vector3Int end = Vector3Int.RoundToInt(corridor.B.Room.center);
+            Vector3Int direction = end - start;
+            direction.Clamp(new Vector3Int(-1, -1, -1), new Vector3Int(1, 1, 1));
+            
             List<Vector2Int> tiles = new List<Vector2Int>();
-            
-            var direction = end - start;
-            direction.Clamp(new Vector3Int(-1,-1,-1), new Vector3Int(1,1,1));
-        
-            Vector3Int current = start;
-            do
+
+            Vector2Int pos = new Vector2Int(start.x, start.y);
+            bool XCondition() => direction.x > 0 ? pos.x < end.x : pos.x > end.x;
+            bool YCondition() => direction.y > 0 ? pos.y < end.y : pos.y > end.y;
+
+            switch (type)
             {
-                current += direction;
-                Debug.Log($"Current corridor: {current}");
-                tiles.Add(new Vector2Int(current.x, current.y));
-                
-            }while(Vector3.Distance(current, end) >= Mathf.Epsilon);
+                case CorridorIntersectType.FirstXThenY:
+                    for (/* iteration variable already set*/ ; XCondition(); pos.x += direction.x)
+                    {
+                        tiles.Add(pos);
+                    }
+                    for (/* iteration variable already set*/; YCondition(); pos.y += direction.y)
+                    {
+                        tiles.Add(pos);
+                    }
+                    break;
+        
+                case CorridorIntersectType.FirstYThenX:
+                default:
+                    for (/* iteration variable already set*/; YCondition(); pos.y +=  direction.y)
+                    {
+                        tiles.Add(pos);
+                    }
+                    for (/* iteration variable already set*/ ; XCondition(); pos.x += direction.x)
+                    {
+                        tiles.Add(pos);
+                    }
+                    break;
+            }
+
+            return tiles;
+
+        }
+
+        #region Unfix
+
+        // private static List<Vector2Int> GenerateCorridorTiles(CorridorIntersectType type, Vector3Int start, Vector3Int end)
+        // {
+        //
+        //     List<Vector2Int> tiles = new List<Vector2Int>();
+        //
+        //     Vector2Int pos = new Vector2Int(start.x, start.y);
+        //     
+        //     switch (type)
+        //     {
+        //         case CorridorIntersectType.FirstXThenY:
+        //
+        //             for (/* iteration variable already set*/ ; pos.x <= end.x; pos.x++)
+        //             {
+        //                 tiles.Add(pos);
+        //             }
+        //             for (/* iteration variable already set*/; pos.y <= end.y; pos.y++)
+        //             {
+        //                 tiles.Add(pos);
+        //             }
+        //             break;
+        //
+        //         case CorridorIntersectType.FirstYThenX:
+        //         default:
+        //             for (/* iteration variable already set*/; pos.y <= end.y; pos.y++)
+        //             {
+        //                 tiles.Add(pos);
+        //             }
+        //             for (/* iteration variable already set*/ ; pos.x <= end.x; pos.x++)
+        //             {
+        //                 tiles.Add(pos);
+        //             }
+        //             break;
+        //     }
+        //
+        //     return tiles;
+        //
+        // }
+
+        #endregion
+        
+        
+        // Fix ---------------
+        private static List<Vector2Int> GenerateCorridorTiles(CorridorIntersectType type, Vector3Int start, Vector3Int end)
+        {
+        
+            List<Vector2Int> tiles = new List<Vector2Int>();
+        
+            Vector2Int pos = new Vector2Int(start.x, start.y);
             
+            switch (type)
+            {
+                case CorridorIntersectType.FirstXThenY:
+        
+                    for (/* iteration variable already set*/ ; pos.x <= end.x; pos.x++)
+                    {
+                        tiles.Add(pos);
+                    }
+                    for (/* iteration variable already set*/; pos.y <= end.y; pos.y++)
+                    {
+                        tiles.Add(pos);
+                    }
+                    break;
+        
+                case CorridorIntersectType.FirstYThenX:
+                default:
+                    for (/* iteration variable already set*/; pos.y <= end.y; pos.y++)
+                    {
+                        tiles.Add(pos);
+                    }
+                    for (/* iteration variable already set*/ ; pos.x <= end.x; pos.x++)
+                    {
+                        tiles.Add(pos);
+                    }
+                    break;
+            }
+        
             return tiles;
         
         }
+    
     }
-    
-   
-    
-    
+
+
+
+
 }

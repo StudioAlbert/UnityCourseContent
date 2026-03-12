@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using PCG;
@@ -13,20 +14,24 @@ public class DungeonGenerator : MonoBehaviour
 	
 	[SerializeField] private float _threshold = 0.5f;
 	
-	[SerializeField] private Tilemap _tilemap;
-	[SerializeField] private TileBase _tile;
+	[SerializeField] private Tilemap _tilemapGround;
+	[SerializeField] private TileBase _tileGround;
+	
+	[SerializeField] private Tilemap _tilemapCorridors;
+	[SerializeField] private TileBase _tileCorridor;
 
 	[Header("BSP")]
 	[SerializeField][Range(0.1f, 1f)] private float _minCutRatio;
 	[SerializeField][Range(0.1f, 1f)] private float _maxCutRatio;
 	[SerializeField] private int _maxSurface = 1250;
-	[SerializeField] private float _shrinkFactor = 0.8f;
+	[SerializeField][Range(0.1f, 1f)] private float _shrinkFactor = 0.8f;
 	[SerializeField] private float _jitter = 25;
 
 	[Header("Corridors")]
 	[SerializeField] private int _corridorSize = 3;
 	
 	private List<BoundsInt> _rooms = new List<BoundsInt>();
+	private List<BoundsInt> _cutBounds = new List<BoundsInt>();
 	private List<Corridor>	_corridors = new List<Corridor>();
 	
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,41 +41,59 @@ public class DungeonGenerator : MonoBehaviour
 	    // List<Vector2Int> generatedPositions = Generate();
 	    // DrawMap(_tilemap, _tile, generatedPositions);
 
+	    GenerateDungeon();
+
+    }
+    
+    public void GenerateDungeon()
+    {
+
 	    Vector2Int corner = _startPos - _size / 2;
 	    BoundsInt originalRoom = new BoundsInt(new Vector3Int(corner.x, corner.y, 1), new Vector3Int(_size.x, _size.y, 1));
 
-	    PCG.BspTree.Generate(out BspNode root, originalRoom, _minCutRatio, _maxCutRatio, _maxSurface, _jitter);
-	    _rooms = PCG.BspTree.MakeRooms(root, _shrinkFactor);
+	    PCG.BspTree.Generate(out BspNode root, originalRoom, _minCutRatio, _maxCutRatio, _maxSurface, _jitter, _shrinkFactor);
+	    _rooms = PCG.BspTree.GetRooms(root, _shrinkFactor);
+	    _cutBounds = PCG.BspTree.GetBounds(root);
 	    _corridors = PCG.BspTree.MakeCorridors(root);
 
 	    var corridorTiles = new List<Vector2Int>();
 	    foreach (Corridor corridor in _corridors)
 	    {
-		    corridorTiles.AddRange(PCG.Corridor.StraightCorridors(corridor));
+		    corridorTiles.AddRange(PCG.Corridor.LCorridors(corridor, Corridor.CorridorIntersectType.FirstXThenY));
 	    }
 
-	    _tilemap.ClearAllTiles();
+	    _tilemapGround.ClearAllTiles();
+	    _tilemapCorridors.ClearAllTiles();
 	    foreach (BoundsInt room in _rooms)
 	    {
 		    Debug.Log($"Room : {room.min} , {room.size}");
-		    PCG.Utils.DrawMap(_tilemap, _tile, room);
+		    PCG.Utils.DrawMap(_tilemapGround, _tileGround, room);
 	    }
-	    PCG.Utils.DrawMap(_tilemap, _tile, corridorTiles);
-		
+	    PCG.Utils.DrawMap(_tilemapCorridors, _tileCorridor, corridorTiles);
     }
-    
+
     private void OnDrawGizmos()
     {
+	    foreach (BoundsInt cutBound in _cutBounds)
+	    { 
+		    Gizmos.color = Color.bisque;
+			Gizmos.DrawWireCube(cutBound.center, cutBound.size);
+	    }
+
 	    foreach (BoundsInt room in _rooms)
 	    { 
 		    Gizmos.color = Color.red;
-			Gizmos.DrawWireCube(room.center, room.size);
+		    Gizmos.DrawWireCube(room.center, room.size);
 	    }
-
+	    
 	    foreach (Corridor corridor in _corridors)
 	    {
-		    Gizmos.color = Color.blue;
-		    Gizmos.DrawLine(corridor.A.Bounds.center, corridor.B.Bounds.center);
+		    Gizmos.color = Color.cyan;
+		    Gizmos.DrawLine(corridor.A.Room.center, corridor.B.Room.center);
+		    //
+		    // Gizmos.color = Color.darkCyan;
+		    // Gizmos.DrawLine(corridor.A.Bounds.center, corridor.B.Bounds.center);
+		    
 	    }
 	    
     }
@@ -94,10 +117,4 @@ public class DungeonGenerator : MonoBehaviour
 	    return positions;
     }
 
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
