@@ -70,6 +70,13 @@ public class WFCSlot
         }
         return toString;
     }
+
+    public void ForceTile(TileBase tile)
+    {
+        _domain.Clear();
+        _domain.Add(tile);
+        _entropy = 0;
+    }
     
     public void ForceCollapse()
     {

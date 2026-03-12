@@ -15,6 +15,8 @@ public class WFCGenerator : MonoBehaviour
     
     private List<WFCSlot> _slots = new List<WFCSlot>();
 
+    public List<WFCSlot> Slots => _slots;
+
     //size of the grid
     private BoundsInt GetBounds(Vector2Int size)
     {
@@ -50,6 +52,10 @@ public class WFCGenerator : MonoBehaviour
             _map.SetTile(position, _undetermined);
             _map.SetColor(position, Color.gray);
         }
+        
+        
+
+
     }
     
     public void Step(List<WFCSlot> startSlots)
