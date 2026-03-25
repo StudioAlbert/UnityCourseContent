@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     public class Health : MonoBehaviour {
         public float maxHealth = 100;
         public float Current;

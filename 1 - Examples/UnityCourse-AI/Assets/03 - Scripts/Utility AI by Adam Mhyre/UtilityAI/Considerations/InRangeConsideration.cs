@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     [CreateAssetMenu(menuName = "UtilityAI/Considerations/InRangeConsideration")]
     public class InRangeConsideration : Consideration {
         public float maxDistance = 10f;

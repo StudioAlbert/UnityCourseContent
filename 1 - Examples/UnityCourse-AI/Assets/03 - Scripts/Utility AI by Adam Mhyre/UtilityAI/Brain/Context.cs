@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     public class Context {
         public Brain brain;
         public NavMeshAgent agent;

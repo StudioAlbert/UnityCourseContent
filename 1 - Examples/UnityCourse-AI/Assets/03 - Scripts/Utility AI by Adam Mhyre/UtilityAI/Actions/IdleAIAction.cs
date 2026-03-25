@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     [CreateAssetMenu(menuName = "UtilityAI/Actions/IdleAction")]
     public class IdleAIAction : AIAction {
         public override void Execute(Context context) {

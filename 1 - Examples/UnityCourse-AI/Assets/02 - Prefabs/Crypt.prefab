@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1640863650294958862}
   - component: {fileID: 8952035695820545568}
+  - component: {fileID: 3156279289706048403}
   m_Layer: 7
   m_Name: Crypt
   m_TagString: Untagged
@@ -57,6 +58,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5.69371, y: 2.8512387, z: 5.476459}
   m_Center: {x: 0, y: 0.42561942, z: 0}
+--- !u!114 &3156279289706048403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6480586619616302712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffb497deeac403696fb2be2951fd6ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CryptPercept
+  _door: {fileID: 431123061201720293}
 --- !u!1 &8471775346794266531
 GameObject:
   m_ObjectHideFlags: 0

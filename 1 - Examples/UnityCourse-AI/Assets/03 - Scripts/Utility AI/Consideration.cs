@@ -1,16 +1,9 @@
 using UnityEngine;
 
-public class Consideration : MonoBehaviour
+namespace UtilityAI_
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public abstract class Consideration : ScriptableObject
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public abstract float Evaluate(Context context);
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     [CreateAssetMenu(menuName = "UtilityAI/Considerations/CompositeConsideration")]
     public class CompositeConsideration : Consideration {
         public enum OperationType { Average, Multiply, Add, Subtract, Divide, Max, Min }

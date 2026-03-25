@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     [RequireComponent(typeof(NavMeshAgent), typeof(Sensor))]
     public class Brain : MonoBehaviour {
         public List<AIAction> actions;

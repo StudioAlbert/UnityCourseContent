@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     public class DrawGizmo : MonoBehaviour {
         public Color color = Color.yellow;
         public float radius = 1f;

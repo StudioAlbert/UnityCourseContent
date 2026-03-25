@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     [CreateAssetMenu(menuName = "UtilityAI/Considerations/Constant")]
     public class ConstantConsideration : Consideration {
         public float value;

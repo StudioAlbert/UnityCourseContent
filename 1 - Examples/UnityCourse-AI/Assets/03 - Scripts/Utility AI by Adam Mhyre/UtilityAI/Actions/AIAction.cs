@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     public abstract class AIAction : ScriptableObject {
         public string targetTag;
         public Consideration consideration;

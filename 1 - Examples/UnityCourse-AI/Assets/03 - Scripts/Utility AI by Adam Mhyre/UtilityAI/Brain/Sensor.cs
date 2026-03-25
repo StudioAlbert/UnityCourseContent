@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI {
+namespace UtilityAIByAdamMhyre {
     [RequireComponent(typeof(SphereCollider))]
     public class Sensor : MonoBehaviour {
         public float detectionRadius = 10f;
