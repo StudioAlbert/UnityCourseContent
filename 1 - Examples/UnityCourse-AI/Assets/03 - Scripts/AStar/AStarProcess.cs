@@ -24,12 +24,10 @@ class AStarPoint
 
 public static class AStarProcess
 {
-    public static Vector3Int[] Process(List<Vector3Int> walkables, Vector3Int start, Vector3Int end)
+    public static Vector3Int[] Process(List<Vector3Int> aiWalkables, Vector3Int start, Vector3Int end)
     {
         List<Vector3Int> path = new List<Vector3Int>();
-
-        List<Vector3Int> aiWalkables = walkables.Where(w => GetWalkableNeighbours(walkables, w)).ToList();
-
+        
         if (aiWalkables.Contains(start) && aiWalkables.Contains(end))
         {
             // Basics stuff --------
@@ -104,14 +102,16 @@ public static class AStarProcess
         }
     }
 
-    private static bool GetWalkableNeighbours(List<Vector3Int> walkables, Vector3Int position)
+    public static bool HasWalkableNeighbours(List<Vector3Int> walkables, Vector3Int position)
     {
         int neighbourCount = 0;
+        var neighbourhood = Utils.MooreDirections;
+        
         // Check neighbours
-        foreach (Vector3Int neighbour in Utils.VonNeumannDirections)
+        foreach (Vector3Int neighbour in neighbourhood)
         {
             if (walkables.Contains(position + neighbour)) neighbourCount++;
         }
-        return neighbourCount > 8;
+        return neighbourCount >= neighbourhood.Length;
     }
 }
