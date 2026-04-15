@@ -3,7 +3,7 @@
 namespace UtilityAI_
 {
     [CreateAssetMenu(fileName = "In view Consideration", menuName = "AI Example/Considerations/In view Consideration")]
-    public class InView : Consideration
+    public class InViewConsideration : Consideration
     {
         [SerializeField] private AnimationCurve _correctionCurve;
         [SerializeField] private float _range = 2;
